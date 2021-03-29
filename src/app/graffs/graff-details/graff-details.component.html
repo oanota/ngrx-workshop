@@ -1,0 +1,11 @@
+<div class="card" *ngIf="graff">
+  <h3 class="card-header">Details for id: {{graff.id_graff}}</h3>
+  <img src={{graff.photo_url}} alt="">
+  <div class="card-body">
+    <h3 class="card-title">{{ graff.title }}</h3>
+    <h4 class="card-subtitle text-muted">Author: {{graff.author}}</h4>
+    <p class="card-text">id: {{ graff.id_graff }}</p>
+    <p class="card-text">Graff size: {{graff.graff_size}}</p>
+    <p class="card-text">Description: {{graff.description}}</p>
+  </div>
+</div>

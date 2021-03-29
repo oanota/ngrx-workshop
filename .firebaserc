@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "graff-spot": {
+      "hosting": {
+        "graffspot-ngrx-demo": [
+          "graff-spot"
+        ]
+      }
+    }
+  }
+}
