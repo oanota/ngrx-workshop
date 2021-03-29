@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Subscription } from 'rxjs';
 import { Graff } from '../graff';
 import { GraffService } from '../graff.service';
-
-// NgRx
-import { Store } from '@ngrx/store';
-import { State } from '../state/graff.reducer';
-import { getCurrentGraff, getShowGraffId } from '../state/graff.selectors';
-import * as GraffActions from "../state/graff.actions";
 
 @Component({
   selector: 'app-graff-details',
@@ -15,25 +9,21 @@ import * as GraffActions from "../state/graff.actions";
   styleUrls: ['./graff-details.component.css']
 })
 export class GraffDetailsComponent implements OnInit {
+  sub: Subscription;
   graff: Graff | null;
 
-  constructor(private store: Store<State>, private graffService: GraffService) { }
+  constructor(private graffService: GraffService) { }
 
   ngOnInit(): void {
     // Watch for changes to the currently selected graff
-    // TODO: Unsubscribe
-    this.store.select(getCurrentGraff).subscribe(
+    this.sub = this.graffService.selectedProductChanges$.subscribe(
       currentGraff => this.displayGraff(currentGraff)
     );
-    
-    // this.sub = this.graffService.selectedProductChanges$.subscribe(
-    //   currentGraff => this.displayGraff(currentGraff)
-    // );
   }
 
   displayGraff(graff: Graff | null): void {
     this.graff = graff;
-    // console.log('Subject')
+    console.log('Subject')
   }
 
 }

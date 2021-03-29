@@ -6,10 +6,6 @@ import { MenuComponent } from './home/menu/menu.component';
 import { ShellComponent } from './home/shell/shell.component';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -20,14 +16,8 @@ import { EffectsModule } from '@ngrx/effects';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ 
-      name: 'GraffSpot NgRx Demo',
-      maxAge: 25, 
-      logOnly: environment.production 
-    }),
-    EffectsModule.forRoot([])
+    // GraffModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

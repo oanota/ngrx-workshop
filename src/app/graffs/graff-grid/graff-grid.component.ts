@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { Graff } from '../graff';
-import { State } from '../state/graff.reducer';
-import { getCurrentGraff, getGraffs, getShowGraffId } from '../state/graff.selectors';
-import * as GraffActions from "../state/graff.actions";
-import { Observable } from 'rxjs';
+import { GraffService } from '../graff.service';
 
 @Component({
   selector: 'app-graff-grid',
@@ -12,33 +9,44 @@ import { Observable } from 'rxjs';
   styleUrls: ['./graff-grid.component.css']
 })
 export class GraffGridComponent implements OnInit {
-  // selectedGraff: Graff;
-  // displayGraffId: boolean;
+  graffs: Graff[] = [];
+  sub: Subscription;
 
-  graffs$: Observable<Graff[]>;
-  selectedGraff$: Observable<Graff>;
-  displayGraffId$: Observable<boolean>;
+  displayGraffId: boolean;
 
-  constructor(private store: Store<State>) { }
-
-  checkChanged(): void {
-    this.store.dispatch(GraffActions.toggleGraffId());
-  }
+  constructor(private graffService: GraffService) { }
 
   ngOnInit(): void {
-    this.graffs$ = this.store.select(getGraffs);
+    console.log('on init');
+    this.graffService.getGraffs().subscribe(
+      (e) => { 
+        // console.log(JSON.stringify(e));
+        e.map((eee) => {
+          const data = eee.payload.doc.data();
+          // console.log((data));
+          this.graffs.push({
+            id_graff: data['id_graff'],
+            author: data['author'],
+            description: data['description'],
+            graff_size: data['graff_size'],
+            photo_url: data['photo_url'],
+            title: data['title'],
+            likes: 0
+          } as Graff)
+        })
+        // this.graffs
+      }
+    );
+  }
 
-    this.store.dispatch(GraffActions.loadGraffs());
-
-    this.selectedGraff$ = this.store.select(getCurrentGraff);
-
-    this.displayGraffId$ = this.store.select(getShowGraffId);
+  checkChanged(): void {
+    this.displayGraffId = !this.displayGraffId;
+    console.log(this.displayGraffId)
   }
 
   graffSelected(graff: Graff): void {
-    this.store.dispatch(GraffActions.setCurrentGraff({graff}));
-    // this.graffService.changeSelectedGraff(graff);
-    // console.log(graff)
+    this.graffService.changeSelectedGraff(graff);
+    console.log(graff)
   }
 
 }

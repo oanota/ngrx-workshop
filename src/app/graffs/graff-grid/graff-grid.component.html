@@ -4,20 +4,19 @@
   class="custom-control-input" 
   type="checkbox"
   (change)="checkChanged()" 
-  [checked]="displayGraffId$ | async" />
+  [checked]="displayGraffId" />
   
-  <label class="custom-control-label" 
-    for="customSwitch1">Display Graff id</label>
+  <label class="custom-control-label" for="customSwitch1">Display Graff id</label>
 </div>
 
-<div class="row" *ngIf="graffs$ | async as graffs">
+<div class="row">
   <div *ngFor="let graff of graffs" class="col-md-4">
-    <div class="card mb-2" [ngClass]="{'border-primary': graff?.id_graff === (selectedGraff$ | async)?.id_graff}">
+    <div  class="card mb-2">
       <img src={{graff.photo_url}} alt="">
       <div class="card-body">
         <h3 class="card-title">{{ graff.title }}</h3>
         <h4 class="card-subtitle text-muted">Author: {{graff.author}}</h4>
-        <ng-container *ngIf="displayGraffId$ | async">
+        <ng-container *ngIf="displayGraffId">
           ({{ graff.id_graff }})
         </ng-container>
         <p class="card-text">{{graff.description}}</p>
